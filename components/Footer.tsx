@@ -1,10 +1,41 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, MessageCircle, Send } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
 
 export default function Footer() {
+  const [formData, setFormData] = useState({ name: '', requirement: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // 使用 mailto 方式
+      const subject = encodeURIComponent(`来自 ${formData.name} 的咨询`);
+      const body = encodeURIComponent(`称呼：${formData.name}\n\n需求：${formData.requirement}`);
+      window.location.href = `mailto:kuaikuaichuhai@gmail.com?subject=${subject}&body=${body}`;
+
+      setSubmitStatus('success');
+      setFormData({ name: '', requirement: '' });
+
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 3000);
+    } catch (error) {
+      setSubmitStatus('error');
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 3000);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const footerLinks = {
     产品: ['服务介绍', '价格方案', '成功案例', '客户评价'],
     资源: ['博客', '白皮书', '行业报告', '出海指南'],
@@ -16,12 +47,12 @@ export default function Footer() {
     <footer id="contact" className="bg-gradient-to-br from-gray-900 via-[rgb(30,64,175)] to-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* 上半部分 */}
-        <div className="flex flex-col items-start text-left mb-12">
-          {/* 品牌区域 */}
-          <div className="max-w-md">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+          {/* 左侧 - 品牌区域 */}
+          <div>
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="mb-6"
+              className="mb-6 inline-block"
             >
               <Image
                 src="/logo_white.png"
@@ -38,7 +69,7 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-gray-300">
                 <Mail className="w-5 h-5" />
-                <span>contact@kuaikuaichuhai.com</span>
+                <span>kuaikuaichuhai@gmail.com</span>
               </div>
               <div className="flex items-center gap-3 text-gray-300">
                 <Phone className="w-5 h-5" />
@@ -46,12 +77,66 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3 text-gray-300">
                 <MessageCircle className="w-5 h-5" />
-                <span>微信: kuaikuaichuhai</span>
+                <span>微信: kuaikuaitools</span>
               </div>
               <div className="flex items-center gap-3 text-gray-300">
                 <MapPin className="w-5 h-5" />
-                <span>中国 深圳</span>
+                <span>广东省东莞市虎门镇连升路139号A+大厦1单元507室</span>
               </div>
+            </div>
+          </div>
+
+          {/* 右侧 - 联系表单 */}
+          <div className="md:pl-12">
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 max-w-sm ml-auto">
+              <form onSubmit={handleSubmit} className="space-y-3">
+                <div>
+                  <label htmlFor="name" className="block text-xs text-gray-400 mb-1.5">
+                    您的称呼
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-3 py-2.5 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:border-white/50 transition-colors"
+                    placeholder="请输入您的称呼"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="requirement" className="block text-xs text-gray-400 mb-1.5">
+                    您的需求
+                  </label>
+                  <textarea
+                    id="requirement"
+                    required
+                    rows={3}
+                    value={formData.requirement}
+                    onChange={(e) => setFormData({ ...formData, requirement: e.target.value })}
+                    className="w-full px-3 py-2.5 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:border-white/50 transition-colors resize-none"
+                    placeholder="请简单描述您的出海需求"
+                  />
+                </div>
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-2.5 bg-white text-[rgb(30,64,175)] rounded-lg text-sm font-semibold flex items-center justify-center gap-2 hover:bg-blue-50 transition-colors disabled:opacity-50"
+                >
+                  {isSubmitting ? (
+                    '发送中...'
+                  ) : submitStatus === 'success' ? (
+                    '已打开邮件客户端'
+                  ) : (
+                    <>
+                      发送咨询
+                      <Send className="w-3.5 h-3.5" />
+                    </>
+                  )}
+                </motion.button>
+              </form>
             </div>
           </div>
         </div>

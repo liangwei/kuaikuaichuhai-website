@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Cpu, Globe2, Network, TrendingUp } from 'lucide-react';
+import { Cpu, Globe2, Network, TrendingUp, Play, Target, BarChart3 } from 'lucide-react';
 
 export default function Advantages() {
   const ref = useRef(null);
@@ -145,17 +145,25 @@ export default function Advantages() {
           className="bg-gradient-to-br from-[rgb(30,64,175)] to-[rgb(59,130,246)] rounded-3xl p-12 text-white text-center shadow-2xl"
         >
           <h3 className="text-3xl font-bold mb-4">深度行业经验</h3>
-          <p className="text-xl text-white/90 mb-6">
+          <p className="text-xl text-white/90 mb-6 max-w-3xl mx-auto leading-relaxed">
+            核心团队来自字节跳动、蓝色光标、googleads等顶尖互联网与营销公司， 拥有丰富的的跨境营销实战经验，服务过3C、美妆、Saas、消费品等多个垂直领域。 我们不仅懂内容，更懂品牌增长的底层逻辑。
+          </p>
+          <p className="text-lg text-white/80 mb-8 max-w-3xl mx-auto">
             团队成员来自
           </p>
           <div className="flex flex-wrap justify-center items-center gap-6">
-            {['字节跳动', '蓝标国际', 'Google Ads'].map((company, i) => (
+            {[
+              { name: '字节跳动', icon: Play },
+              { name: '蓝标国际', icon: Target },
+              { name: 'Google Ads', icon: BarChart3 },
+            ].map((company, i) => (
               <motion.div
                 key={i}
                 whileHover={{ scale: 1.1 }}
-                className="px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-lg font-semibold border border-white/30"
+                className="px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full text-lg font-semibold border border-white/30 flex items-center gap-2"
               >
-                {company}
+                <company.icon className="w-5 h-5" />
+                {company.name}
               </motion.div>
             ))}
           </div>

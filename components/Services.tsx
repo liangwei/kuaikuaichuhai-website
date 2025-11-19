@@ -19,37 +19,47 @@ export default function Services() {
     {
       icon: Search,
       title: 'GEO智能洞察',
-      desc: 'AI采集全球数据，识别内容机会点',
-      features: ['市场洞察报告', '关键词矩阵', '内容策略建议'],
+      desc: '从数据出发，找到内容机会点',
+      features: ['AI采集各国家搜索、社交与竞品数据', '识别热门主题、用户兴趣与内容空白', '生成品牌专属的「内容策略地图」'],
       gradient: 'from-blue-500 to-cyan-500',
+      resultLabel: '交付成果',
+      results: ['GEO市场洞察报告', '关键词与趋势矩阵', '品牌内容策略建议'],
     },
     {
       icon: Share2,
       title: '社媒内容营销',
-      desc: 'TikTok/Instagram/YouTube全平台运营',
-      features: ['多语言内容制作', 'KOL合作', '话题共创'],
+      desc: '让品牌故事融入用户日常',
+      features: ['TikTok/Instagram/YouTube/X全平台内容策略', '多语言短视频 + 图文创意制作', '海外KOL / KOC合作与话题共创','每月内容日历与运营复盘'],
       gradient: 'from-purple-500 to-pink-500',
+      resultLabel: '效果目标',
+      results: ['品牌曝光提升 40%', '用户互动率提升 50%', '粉丝留存与复购增长'],
     },
     {
       icon: LineChart,
-      title: 'SEO优化矩阵',
+      title: 'SEO优化与内容矩阵',
       desc: '让品牌在全球搜索中长期可见',
-      features: ['多语言SEO内容', '关键词优化', '权重提升'],
+      features: ['AI生成多语言SEO内容（博客 / 着陆页 / 评测文）', '关键词策略 + 结构化网站优化', '外链建设与权重提升','内容更新与排名监控'],
       gradient: 'from-orange-500 to-red-500',
+      resultLabel: '效果目标',
+      results: ['自然流量提升 80%+', '投放依赖下降 30%', '长期线索稳定增长'],
     },
     {
       icon: MessageCircle,
       title: 'Reddit社区运营',
       desc: '在全球最真实的社区赢得信任',
-      features: ['板块分析', 'AMA活动', 'UGC引导'],
+      features: ['Reddit板块受众分析与话题植入', '品牌AMA活动策划与口碑讨论引导', '用户UGC引导与舆情监测','危机公关与声量管理'],
       gradient: 'from-green-500 to-emerald-500',
+      resultLabel: '成果表现',
+      results: ['品牌提及率增长 3倍', '高质量反链提升', '自然流量显著增长'],
     },
     {
       icon: BarChart3,
       title: '增长仪表盘',
       desc: '让每一篇内容都有ROI',
-      features: ['全渠道数据整合', 'AI效果分析', '增长策略优化'],
+      features: ['渠道数据整合（SEO + 社媒 + Reddit）', 'AI分析主题效果、渠道ROI、受众偏好', '自动生成月度报告与增长策略优化'],
       gradient: 'from-indigo-500 to-blue-500',
+      resultLabel: '价值',
+      results: ['数据闭环', '从"做内容"转向"做增长"'],
     },
   ];
 
@@ -103,16 +113,33 @@ export default function Services() {
               <p className="text-gray-600 mb-6">{service.desc}</p>
 
               {/* 特性列表 */}
-              <ul className="space-y-2">
+              <ul className="space-y-2 mb-4">
                 {service.features.map((feature, i) => (
-                  <li key={i} className="flex items-center text-gray-700">
+                  <li key={i} className="flex items-start text-gray-700 text-sm">
                     <span
-                      className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${service.gradient} mr-2`}
+                      className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${service.gradient} mr-2 mt-1.5 flex-shrink-0`}
                     />
                     {feature}
                   </li>
                 ))}
               </ul>
+
+              {/* 成果/效果目标 */}
+              <div className={`mt-4 pt-4 border-t border-gray-100`}>
+                <div className={`text-xs font-semibold mb-2 bg-gradient-to-r ${service.gradient} bg-clip-text text-transparent`}>
+                  {service.resultLabel}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {service.results.map((result, i) => (
+                    <span
+                      key={i}
+                      className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs"
+                    >
+                      {result}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
               {/* 悬停效果边框 */}
               <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-[rgb(30,64,175)]/20 transition-all duration-300" />
