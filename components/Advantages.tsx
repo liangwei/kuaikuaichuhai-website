@@ -128,11 +128,11 @@ export default function Advantages() {
                         {metric.number !== undefined ? (
                           <CountUp
                             end={metric.number}
-                            prefix={metric.prefix}
-                            suffix={metric.suffix}
+                            prefix={(metric as any).prefix}
+                            suffix={(metric as any).suffix}
                           />
                         ) : (
-                          metric.value
+                          (metric as any).value
                         )}
                       </div>
                     </div>
