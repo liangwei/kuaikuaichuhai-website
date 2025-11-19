@@ -21,7 +21,7 @@ export default function Navbar() {
     { name: '首页', href: '#home' },
     { name: '服务', href: '#services' },
     { name: '案例', href: '#cases' },
-    { name: '关于', href: '#about' },
+    // { name: '关于', href: '#about' },
   ];
 
   return (
@@ -66,13 +66,14 @@ export default function Navbar() {
                 {item.name}
               </motion.a>
             ))}
-            <motion.button
+            <motion.a
+              href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-6 py-2.5 bg-white text-[rgb(30,64,175)] rounded-full font-medium shadow-lg hover:shadow-xl hover:bg-blue-50 transition-all"
             >
               联系我们
-            </motion.button>
+            </motion.a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -108,9 +109,9 @@ export default function Navbar() {
                 {item.name}
               </a>
             ))}
-            <button className="w-full px-4 py-2.5 bg-white text-[rgb(30,64,175)] rounded-lg font-medium hover:bg-blue-50 transition-colors">
+            <a href="#contact" onClick={() => setIsOpen(false)} className="block w-full px-4 py-2.5 bg-white text-[rgb(30,64,175)] rounded-lg font-medium hover:bg-blue-50 transition-colors text-center">
               联系我们
-            </button>
+            </a>
           </div>
         </motion.div>
       )}

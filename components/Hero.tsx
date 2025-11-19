@@ -112,21 +112,23 @@ export default function Hero() {
             variants={itemVariants}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
           >
-            <motion.button
+            <motion.a
+              href="#contact"
               whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(30,64,175,0.3)' }}
               whileTap={{ scale: 0.95 }}
               className="group px-8 py-4 bg-gradient-to-r from-[rgb(30,64,175)] to-[rgb(59,130,246)] text-white rounded-full font-semibold text-lg shadow-xl flex items-center gap-2"
             >
               开始出海之旅
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-            <motion.button
+            </motion.a>
+            <motion.a
+              href="#cases"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-white/80 backdrop-blur-sm text-[rgb(30,64,175)] rounded-full font-semibold text-lg border-2 border-[rgb(30,64,175)]/20 hover:border-[rgb(30,64,175)]/50 transition-all"
             >
               查看成功案例
-            </motion.button>
+            </motion.a>
           </motion.div>
 
           {/* 特性图标 */}

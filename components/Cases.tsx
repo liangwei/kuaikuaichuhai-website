@@ -125,15 +125,15 @@ export default function Cases() {
                   ))}
                 </div>
 
-                {/* 查看详情按钮 */}
-                <motion.button
+                {/* 查看详情按钮 - 暂时隐藏 */}
+                {/* <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className="mt-6 w-full py-3 bg-gradient-to-r from-[rgb(30,64,175)] to-[rgb(59,130,246)] text-white rounded-lg font-medium flex items-center justify-center gap-2 group-hover:shadow-lg transition-all duration-300"
                 >
                   查看详细案例
                   <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </motion.button>
+                </motion.button> */}
               </div>
             </motion.div>
           ))}
