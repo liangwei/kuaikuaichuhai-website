@@ -84,7 +84,7 @@ export default function Services() {
         </motion.div>
 
         {/* 服务卡片网格 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
           {services.map((service, index) => (
             <motion.div
               key={index}
@@ -92,7 +92,9 @@ export default function Services() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ y: -10, scale: 1.02 }}
-              className="group relative bg-gradient-to-br from-gray-50 to-white p-8 rounded-2xl border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-300"
+              className={`group relative bg-gradient-to-br from-gray-50 to-white p-8 rounded-2xl border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-300 ${
+                index < 2 ? 'lg:col-span-3' : 'lg:col-span-2'
+              }`}
             >
               {/* 背景渐变 */}
               <div

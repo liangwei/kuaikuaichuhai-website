@@ -148,7 +148,7 @@ export default function Advantages() {
           <p className="text-xl text-white/90 mb-6 max-w-3xl mx-auto leading-relaxed">
             核心团队来自字节跳动、蓝色光标、googleads等顶尖互联网与营销公司， 拥有丰富的的跨境营销实战经验，服务过3C、美妆、Saas、消费品等多个垂直领域。 我们不仅懂内容，更懂品牌增长的底层逻辑。
           </p>
-          <p className="text-lg text-white/80 mb-8 max-w-3xl mx-auto">
+          {/* <p className="text-lg text-white/80 mb-8 max-w-3xl mx-auto">
             团队成员来自
           </p>
           <div className="flex flex-wrap justify-center items-center gap-6">
@@ -166,7 +166,7 @@ export default function Advantages() {
                 {company.name}
               </motion.div>
             ))}
-          </div>
+          </div> */}
         </motion.div>
       </div>
     </section>
