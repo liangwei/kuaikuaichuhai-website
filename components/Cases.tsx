@@ -139,8 +139,8 @@ export default function Cases() {
           ))}
         </div>
 
-        {/* 信任徽章 */}
-        <motion.div
+        {/* 信任徽章 - 暂时隐藏 */}
+        {/* <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.8 }}
@@ -157,7 +157,7 @@ export default function Cases() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );
