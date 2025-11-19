@@ -3,12 +3,29 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, MessageCircle, Send } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Footer() {
   const [formData, setFormData] = useState({ name: '', requirement: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const nameInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // 监听点击事件，检查是否点击了联系我们链接
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a[href="#contact"]');
+      if (link) {
+        setTimeout(() => {
+          nameInputRef.current?.focus();
+        }, 1500);
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,6 +115,7 @@ export default function Footer() {
                     type="text"
                     id="name"
                     required
+                    ref={nameInputRef}
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-3 py-2.5 bg-white/10 border border-white/20 rounded-lg text-sm text-white placeholder-gray-400 focus:outline-none focus:border-white/50 transition-colors"

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Cpu, Globe2, Network, TrendingUp, Play, Target, BarChart3 } from 'lucide-react';
+import CountUp from './CountUp';
 
 export default function Advantages() {
   const ref = useRef(null);
@@ -15,8 +16,8 @@ export default function Advantages() {
       title: 'AI驱动效率',
       description: '从洞察、生成到复盘全流程AI加速',
       metrics: [
-        { label: '产能提升', value: '×3' },
-        { label: '成本降低', value: '-50%' },
+        { label: '产能提升', number: 3, prefix: '×' },
+        { label: '成本降低', number: 50, prefix: '-', suffix: '%' },
       ],
       gradient: 'from-cyan-500 to-blue-500',
     },
@@ -25,8 +26,8 @@ export default function Advantages() {
       title: '本地化内容团队',
       description: '东南亚、中东、欧美本地创作者深度合作',
       metrics: [
-        { label: '覆盖地区', value: '20+' },
-        { label: '本地创作者', value: '100+' },
+        { label: '覆盖地区', number: 20, suffix: '+' },
+        { label: '本地创作者', number: 100, suffix: '+' },
       ],
       gradient: 'from-green-500 to-emerald-500',
     },
@@ -35,8 +36,8 @@ export default function Advantages() {
       title: '全渠道联动',
       description: '整合SEO、社媒、Reddit实现内容资产互通',
       metrics: [
-        { label: '覆盖平台', value: '10+' },
-        { label: '内容复用率', value: '80%' },
+        { label: '覆盖平台', number: 10, suffix: '+' },
+        { label: '内容复用率', number: 80, suffix: '%' },
       ],
       gradient: 'from-purple-500 to-pink-500',
     },
@@ -45,7 +46,7 @@ export default function Advantages() {
       title: '数据化ROI闭环',
       description: '每篇内容、每个渠道都可追踪与复盘',
       metrics: [
-        { label: '数据维度', value: '50+' },
+        { label: '数据维度', number: 50, suffix: '+' },
         { label: '报表频率', value: '实时' },
       ],
       gradient: 'from-orange-500 to-red-500',
@@ -124,7 +125,15 @@ export default function Advantages() {
                       <div
                         className={`text-2xl font-bold bg-gradient-to-r ${advantage.gradient} bg-clip-text text-transparent`}
                       >
-                        {metric.value}
+                        {metric.number !== undefined ? (
+                          <CountUp
+                            end={metric.number}
+                            prefix={metric.prefix}
+                            suffix={metric.suffix}
+                          />
+                        ) : (
+                          metric.value
+                        )}
                       </div>
                     </div>
                   ))}

@@ -10,6 +10,7 @@ import {
   MessageCircle,
   BarChart3,
 } from 'lucide-react';
+import CountUp from './CountUp';
 
 export default function Services() {
   const ref = useRef(null);
@@ -157,10 +158,10 @@ export default function Services() {
           className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8"
         >
           {[
-            { number: '3x', label: 'AI效率提升' },
-            { number: '120%', label: '流量增长' },
-            { number: '50%', label: '成本降低' },
-            { number: '80+', label: '服务客户' },
+            { number: 3, suffix: 'x', label: 'AI效率提升' },
+            { number: 120, suffix: '%', label: '流量增长' },
+            { number: 50, suffix: '%', label: '成本降低' },
+            { number: 80, suffix: '+', label: '服务客户' },
           ].map((stat, index) => (
             <motion.div
               key={index}
@@ -168,7 +169,7 @@ export default function Services() {
               className="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl"
             >
               <div className="text-4xl font-bold bg-gradient-to-r from-[rgb(30,64,175)] to-[rgb(59,130,246)] bg-clip-text text-transparent mb-2">
-                {stat.number}
+                <CountUp end={stat.number} suffix={stat.suffix} />
               </div>
               <div className="text-gray-600 font-medium">{stat.label}</div>
             </motion.div>

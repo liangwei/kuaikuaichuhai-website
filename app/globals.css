@@ -39,6 +39,14 @@ body {
   overflow-x: hidden;
 }
 
+/* 数字字体样式 */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Droid Sans Mono', 'Source Code Pro', monospace;
+  letter-spacing: -0.02em;
+}
+
 /* 自定义滚动条 */
 ::-webkit-scrollbar {
   width: 10px;
