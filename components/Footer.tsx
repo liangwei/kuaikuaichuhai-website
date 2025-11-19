@@ -16,7 +16,7 @@ export default function Footer() {
     <footer id="contact" className="bg-gradient-to-br from-gray-900 via-[rgb(30,64,175)] to-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* 上半部分 */}
-        <div className="flex flex-col items-center text-center mb-12">
+        <div className="flex flex-col items-start text-left mb-12">
           {/* 品牌区域 */}
           <div className="max-w-md">
             <motion.div
@@ -28,7 +28,7 @@ export default function Footer() {
                 alt="快快出海"
                 width={150}
                 height={50}
-                className="h-12 w-auto mx-auto"
+                className="h-12 w-auto"
               />
             </motion.div>
             <p className="text-gray-300 mb-6 leading-relaxed">
@@ -36,19 +36,19 @@ export default function Footer() {
             </p>
             {/* 联系方式 */}
             <div className="space-y-3">
-              <div className="flex items-center justify-center gap-3 text-gray-300">
+              <div className="flex items-center gap-3 text-gray-300">
                 <Mail className="w-5 h-5" />
                 <span>contact@kuaikuaichuhai.com</span>
               </div>
-              <div className="flex items-center justify-center gap-3 text-gray-300">
+              <div className="flex items-center gap-3 text-gray-300">
                 <Phone className="w-5 h-5" />
                 <span>+86 132 4005 5520</span>
               </div>
-              <div className="flex items-center justify-center gap-3 text-gray-300">
+              <div className="flex items-center gap-3 text-gray-300">
                 <MessageCircle className="w-5 h-5" />
                 <span>微信: kuaikuaichuhai</span>
               </div>
-              <div className="flex items-center justify-center gap-3 text-gray-300">
+              <div className="flex items-center gap-3 text-gray-300">
                 <MapPin className="w-5 h-5" />
                 <span>中国 深圳</span>
               </div>

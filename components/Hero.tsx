@@ -22,7 +22,7 @@ export default function Hero() {
       opacity: 1,
       transition: {
         duration: 0.8,
-        ease: [0.6, -0.05, 0.01, 0.99],
+        ease: [0.6, -0.05, 0.01, 0.99] as [number, number, number, number],
       },
     },
   };
@@ -33,7 +33,7 @@ export default function Hero() {
       transition: {
         duration: 3,
         repeat: Infinity,
-        ease: 'easeInOut',
+        ease: 'easeInOut' as const,
       },
     },
   };
