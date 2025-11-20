@@ -44,7 +44,7 @@ export default function Navbar() {
             className="flex items-center"
           >
             <Image
-              src="/logo_white.png"
+              src="/logo.png"
               alt="快快出海"
               width={120}
               height={40}

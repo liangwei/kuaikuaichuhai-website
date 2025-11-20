@@ -35,7 +35,7 @@ export default function Footer() {
       // 使用 mailto 方式
       const subject = encodeURIComponent(`来自 ${formData.name} 的咨询`);
       const body = encodeURIComponent(`称呼：${formData.name}\n\n需求：${formData.requirement}`);
-      window.location.href = `mailto:kuaikuaichuhai@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:contact@kuaikuaichuhai.com?subject=${subject}&body=${body}`;
 
       setSubmitStatus('success');
       setFormData({ name: '', requirement: '' });
@@ -72,7 +72,7 @@ export default function Footer() {
               className="mb-6 inline-block"
             >
               <Image
-                src="/logo_white.png"
+                src="/logo.png"
                 alt="快快出海"
                 width={150}
                 height={50}
@@ -86,7 +86,7 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-gray-300">
                 <Mail className="w-5 h-5" />
-                <span>kuaikuaichuhai@gmail.com</span>
+                <span>contact@kuaikuaichuhai.com</span>
               </div>
               <div className="flex items-center gap-3 text-gray-300">
                 <Phone className="w-5 h-5" />
@@ -98,7 +98,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-3 text-gray-300">
                 <MapPin className="w-5 h-5" />
-                <span>广东省东莞市虎门镇连升路139号A+大厦1单元507室</span>
+                <span>广东省东莞市虎门镇连升路139号A+大厦1单元507室 <br />天津市武清区创业总部基地C06号楼204室</span>
               </div>
             </div>
           </div>
