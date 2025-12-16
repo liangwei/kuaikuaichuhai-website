@@ -18,10 +18,11 @@ export default function Navbar() {
   }, []);
 
   const navItems = [
-    { name: '首页', href: '#home' },
-    { name: '服务', href: '#services' },
-    { name: '案例', href: '#cases' },
-    // { name: '关于', href: '#about' },
+    { name: '首页', href: '/' },
+    { name: 'SEO服务', href: '/seo' },
+    { name: 'GEO服务', href: '/geo' },
+    { name: '社媒服务', href: '/social' },
+    { name: '技术动态', href: '/news' },
   ];
 
   return (
@@ -39,7 +40,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <motion.a
-            href="#home"
+            href="/"
             whileHover={{ scale: 1.05 }}
             className="flex items-center"
           >
