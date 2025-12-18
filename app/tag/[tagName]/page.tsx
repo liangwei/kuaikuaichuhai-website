@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 
   return {
     title: `${tag.name} - 快快出海`,
-    description: tag.description || `查看所有关于 ${tag.name} 的文章`,
+    //description: tag.description || `查看所有关于 ${tag.name} 的文章`,
   }
 }
 
@@ -43,7 +43,7 @@ export default async function TagPage({ params, searchParams }: TagPageProps) {
 
   // 获取该标签下的所有文章
   const articlesResponse = await getArticles({
-    tag: tag.id,
+    tag: tag.name,
     limit: 12,
     page: currentPage,
     status: 'published',

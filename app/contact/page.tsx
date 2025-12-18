@@ -1,15 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react' // 必须引入 Suspense
 import { useSearchParams } from 'next/navigation'
-import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import FadeInWhenVisible from '@/components/FadeInWhenVisible'
 import { submitContact } from '@/lib/strapi'
 import { Mail, Phone, Building2, MessageSquare, Send, CheckCircle2, AlertCircle } from 'lucide-react'
 
-export default function ContactPage() {
+// 子组件：包含所有业务逻辑和 useSearchParams
+function ContactFormChild() {
   const searchParams = useSearchParams()
   const defaultService = searchParams.get('service') as 'seo' | 'geo' | 'social' | null
 
@@ -34,10 +34,9 @@ export default function ContactPage() {
       await submitContact({
         ...formData,
         serviceType: formData.serviceType as 'seo' | 'geo' | 'social' | 'other',
-        source: window.location.href,
+        source: typeof window !== 'undefined' ? window.location.href : '',
       })
       setStatus('success')
-      // 重置表单
       setFormData({
         name: '',
         company: '',
@@ -66,14 +65,9 @@ export default function ContactPage() {
       <main className="pt-16">
         {/* Hero Section */}
         <section className="relative py-20 px-4 overflow-hidden">
-          {/* Animated Gradient Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(59,130,246,0.1),transparent_50%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(168,85,247,0.1),transparent_50%)]" />
-
-          {/* Floating Elements */}
-          <div className="absolute top-10 left-10 w-20 h-20 bg-blue-400/20 rounded-full blur-2xl animate-pulse" />
-          <div className="absolute bottom-10 right-10 w-32 h-32 bg-purple-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
 
           <div className="relative max-w-6xl mx-auto">
             <FadeInWhenVisible>
@@ -98,11 +92,11 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* Contact Form */}
+        {/* Contact Form Section */}
         <section className="py-16 px-4">
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Contact Info */}
+              {/* Contact Info Column */}
               <div className="lg:col-span-1 space-y-6">
                 <FadeInWhenVisible>
                   <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
@@ -129,18 +123,9 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </FadeInWhenVisible>
-
-                <FadeInWhenVisible delay={0.1}>
-                  <div className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl shadow-lg p-6 text-white">
-                    <h3 className="text-xl font-bold mb-3">响应时间</h3>
-                    <p className="text-blue-100">
-                      我们通常在24小时内回复您的咨询
-                    </p>
-                  </div>
-                </FadeInWhenVisible>
               </div>
 
-              {/* Form */}
+              {/* Form Column */}
               <div className="lg:col-span-2">
                 <FadeInWhenVisible delay={0.2}>
                   <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
@@ -162,7 +147,6 @@ export default function ContactPage() {
                       </div>
                     ) : (
                       <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Name & Company */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -174,14 +158,12 @@ export default function ContactPage() {
                               value={formData.name}
                               onChange={handleChange}
                               required
-                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all"
                               placeholder="请输入您的姓名"
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              公司名称
-                            </label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">公司名称</label>
                             <div className="relative">
                               <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                               <input
@@ -189,14 +171,13 @@ export default function ContactPage() {
                                 name="company"
                                 value={formData.company}
                                 onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all"
                                 placeholder="您的公司名称"
                               />
                             </div>
                           </div>
                         </div>
 
-                        {/* Email & Phone */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -210,15 +191,13 @@ export default function ContactPage() {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all"
                                 placeholder="your@email.com"
                               />
                             </div>
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              电话
-                            </label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">电话</label>
                             <div className="relative">
                               <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                               <input
@@ -226,14 +205,13 @@ export default function ContactPage() {
                                 name="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                placeholder="+86 138 0013 8000"
+                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all"
+                                placeholder="+86 138..."
                               />
                             </div>
                           </div>
                         </div>
 
-                        {/* Service Type */}
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             感兴趣的服务 <span className="text-red-500">*</span>
@@ -243,7 +221,7 @@ export default function ContactPage() {
                             value={formData.serviceType}
                             onChange={handleChange}
                             required
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white"
                           >
                             <option value="seo">SEO服务</option>
                             <option value="geo">GEO服务</option>
@@ -252,7 +230,6 @@ export default function ContactPage() {
                           </select>
                         </div>
 
-                        {/* Message */}
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             需求描述 <span className="text-red-500">*</span>
@@ -263,12 +240,11 @@ export default function ContactPage() {
                             onChange={handleChange}
                             required
                             rows={6}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
-                            placeholder="请描述您的需求，我们会为您提供专业建议..."
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg resize-none"
+                            placeholder="请描述您的需求..."
                           />
                         </div>
 
-                        {/* Error Message */}
                         {status === 'error' && (
                           <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
                             <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -276,23 +252,12 @@ export default function ContactPage() {
                           </div>
                         )}
 
-                        {/* Submit Button */}
                         <button
                           type="submit"
                           disabled={status === 'loading'}
-                          className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
+                          className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                         >
-                          {status === 'loading' ? (
-                            <>
-                              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                              提交中...
-                            </>
-                          ) : (
-                            <>
-                              <Send className="w-5 h-5" />
-                              提交咨询
-                            </>
-                          )}
+                          {status === 'loading' ? '提交中...' : <><Send className="w-5 h-5" /> 提交咨询</>}
                         </button>
                       </form>
                     )}
@@ -305,5 +270,14 @@ export default function ContactPage() {
       </main>
       <Footer />
     </div>
+  )
+}
+
+// 导出页面组件：用 Suspense 包裹子组件
+export default function ContactPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">正在加载...</div>}>
+      <ContactFormChild />
+    </Suspense>
   )
 }
