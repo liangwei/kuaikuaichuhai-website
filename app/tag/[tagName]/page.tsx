@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { getTagBySlug, getArticles } from '@/lib/payload'
+import { getTagBySlug, getArticles, getStrapiMediaUrl } from '@/lib/strapi'
 
 interface TagPageProps {
   params: Promise<{
@@ -58,9 +58,9 @@ export default async function TagPage({ params, searchParams }: TagPageProps) {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <main className="pt-20">
+      <main>
         {/* Page Header */}
-        <section className="py-16 px-4 bg-gradient-to-br from-gray-50 to-white">
+        <section className=" px-4 py-24 bg-linear-to-br from-gray-50 to-white">
           <div className="max-w-6xl mx-auto text-center">
             <div className="inline-block px-6 py-2 bg-blue-100 text-blue-700 rounded-full text-lg font-medium mb-6">
               #{tag.name}
@@ -68,11 +68,11 @@ export default async function TagPage({ params, searchParams }: TagPageProps) {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {tag.name}
             </h1>
-            {tag.description && (
+            {/* {tag.description && (
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 {tag.description}
               </p>
-            )}
+            )} */}
             <p className="text-gray-500 mt-4">
               共 {articlesResponse.totalDocs} 篇文章
             </p>
@@ -94,8 +94,8 @@ export default async function TagPage({ params, searchParams }: TagPageProps) {
                       {article.coverImage && (
                         <div className="aspect-video bg-gray-200 overflow-hidden">
                           <img
-                            src={article.coverImage.url}
-                            alt={article.coverImage.alt || article.title}
+                            src={getStrapiMediaUrl(article.coverImage.url) || ''}
+                            alt={article.coverImage.alternativeText || article.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
                         </div>
