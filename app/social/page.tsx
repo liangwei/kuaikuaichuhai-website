@@ -28,7 +28,7 @@ export default async function SocialPage() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <main>
+      <main className="pt-16">
         {/* Hero Section with Enhanced Design */}
         <section className="relative py-24 px-4 overflow-hidden">
           {/* Animated Gradient Background */}
@@ -63,13 +63,19 @@ export default async function SocialPage() {
 
             <FadeInWhenVisible delay={0.3}>
               <div className="flex justify-center gap-4 mt-10">
-                <button className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                <Link
+                  href="/contact?service=social"
+                  className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2"
+                >
                   开始咨询
                   <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                </button>
-                <button className="px-8 py-4 bg-white/80 backdrop-blur-sm text-gray-800 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-gray-200">
+                </Link>
+                <Link
+                  href="/cases?type=social"
+                  className="px-8 py-4 bg-white/80 backdrop-blur-sm text-gray-800 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-gray-200"
+                >
                   查看案例
-                </button>
+                </Link>
               </div>
             </FadeInWhenVisible>
           </div>

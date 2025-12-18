@@ -1,0 +1,90 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cases",
+  "info": {
+    "singularName": "case",
+    "pluralName": "cases",
+    "displayName": "Case"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "client": {
+      "type": "string"
+    },
+    "clientLogo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "industry": {
+      "type": "enumeration",
+      "enum": [
+        "ecommerce",
+        "saas",
+        "manufacturing",
+        "tourism",
+        "other"
+      ]
+    },
+    "serviceType": {
+      "type": "enumeration",
+      "enum": [
+        "seo",
+        "geo",
+        "social"
+      ]
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "challenge": {
+      "type": "richtext"
+    },
+    "solution": {
+      "type": "richtext"
+    },
+    "results": {
+      "type": "component",
+      "component": "case.repeatable",
+      "repeatable": true
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

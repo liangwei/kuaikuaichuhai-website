@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contacts",
+  "info": {
+    "singularName": "contact",
+    "pluralName": "contacts",
+    "displayName": "Contact"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "company": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "phone": {
+      "type": "string"
+    },
+    "serviceType": {
+      "type": "enumeration",
+      "enum": [
+        "seo",
+        "geo",
+        "social",
+        "other"
+      ]
+    },
+    "dealStatus": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "contacted",
+        "closed"
+      ]
+    },
+    "source": {
+      "type": "string"
+    },
+    "message": {
+      "type": "text"
+    }
+  }
+}

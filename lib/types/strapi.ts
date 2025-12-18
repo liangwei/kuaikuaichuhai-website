@@ -107,7 +107,57 @@ export interface Service {
   publishedAt: string;
 }
 
+// 联系表单（Strapi 5.x 扁平格式）
+export interface Contact {
+  id: number;
+  documentId: string;
+  name: string;
+  company?: string;
+  email: string;
+  phone?: string;
+  serviceType: 'seo' | 'geo' | 'social' | 'other';
+  message: string;
+  dealStatus: 'pending' | 'contacted' | 'closed';
+  source?: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+// 案例成果数据
+export interface CaseResult {
+  id: number;
+  metric: string;
+  value: string;
+  icon?: string;
+}
+
+// 案例（Strapi 5.x 扁平格式）
+export interface Case {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string | null;
+  client?: string;
+  clientLogo?: StrapiMedia | null;
+  industry?: 'ecommerce' | 'saas' | 'manufacturing' | 'tourism' | 'other';
+  serviceType: 'seo' | 'geo' | 'social';
+  description?: string;
+  challenge?: string;
+  solution?: string;
+  results?: CaseResult[];
+  coverImage?: StrapiMedia | null;
+  images?: StrapiMedia[];
+  featured: boolean;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
 // 列表响应类型
 export type ArticlesResponse = StrapiResponse<Article[]>;
 export type TagsResponse = StrapiResponse<Tag[]>;
 export type ServicesResponse = StrapiResponse<Service[]>;
+export type ContactsResponse = StrapiResponse<Contact[]>;
+export type CasesResponse = StrapiResponse<Case[]>;

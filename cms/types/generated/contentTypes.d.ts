@@ -467,6 +467,85 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCaseCase extends Struct.CollectionTypeSchema {
+  collectionName: 'cases';
+  info: {
+    displayName: 'Case';
+    pluralName: 'cases';
+    singularName: 'case';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    challenge: Schema.Attribute.RichText;
+    client: Schema.Attribute.String;
+    clientLogo: Schema.Attribute.Media<'images' | 'files'>;
+    coverImage: Schema.Attribute.Media<'images' | 'files'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText;
+    featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    images: Schema.Attribute.Media<'images' | 'files', true>;
+    industry: Schema.Attribute.Enumeration<
+      ['ecommerce', 'saas', 'manufacturing', 'tourism', 'other']
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::case.case'> &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    results: Schema.Attribute.Component<'case.repeatable', true>;
+    serviceType: Schema.Attribute.Enumeration<['seo', 'geo', 'social']>;
+    slug: Schema.Attribute.UID<'title'>;
+    solution: Schema.Attribute.RichText;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiContactContact extends Struct.CollectionTypeSchema {
+  collectionName: 'contacts';
+  info: {
+    displayName: 'Contact';
+    pluralName: 'contacts';
+    singularName: 'contact';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    company: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    dealStatus: Schema.Attribute.Enumeration<
+      ['pending', 'contacted', 'closed']
+    >;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::contact.contact'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.Text;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    phone: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    serviceType: Schema.Attribute.Enumeration<
+      ['seo', 'geo', 'social', 'other']
+    >;
+    source: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiServiceService extends Struct.CollectionTypeSchema {
   collectionName: 'services';
   info: {
@@ -1045,6 +1124,8 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::article.article': ApiArticleArticle;
+      'api::case.case': ApiCaseCase;
+      'api::contact.contact': ApiContactContact;
       'api::service.service': ApiServiceService;
       'api::tag.tag': ApiTagTag;
       'plugin::content-releases.release': PluginContentReleasesRelease;

@@ -46,7 +46,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <main>
+      <main className="pt-16">
         {/* Enhanced Hero Section */}
         <section className="relative py-24 px-4 overflow-hidden">
           {/* Animated Gradient Background */}

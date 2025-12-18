@@ -80,7 +80,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <main>
+      <main className="pt-16">
         {/* Back Button */}
         <div className="max-w-4xl mx-auto px-4 pt-24 pb-4">
           <FadeInWhenVisible>

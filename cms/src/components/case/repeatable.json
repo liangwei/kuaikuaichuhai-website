@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_case_repeatables",
+  "info": {
+    "displayName": "repeatable"
+  },
+  "options": {},
+  "attributes": {
+    "metric": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

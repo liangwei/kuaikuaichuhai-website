@@ -3,7 +3,7 @@
  * 兼容 Payload CMS 接口格式
  */
 
-import { Article, Tag, Service, ArticlesResponse as StrapiArticlesResponse } from './types/strapi';
+import { Article, Tag, Service, Contact, Case, ArticlesResponse as StrapiArticlesResponse } from './types/strapi';
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 const API_URL = `${STRAPI_URL}/api`;
@@ -250,3 +250,98 @@ export function getStrapiMediaUrl(url: string | null | undefined): string | null
   if (url.startsWith('http')) return url;
   return `${STRAPI_URL}${url}`;
 }
+
+/**
+ * 提交联系表单
+ */
+export async function submitContact(data: {
+  name: string;
+  company?: string;
+  email: string;
+  phone?: string;
+  serviceType: 'seo' | 'geo' | 'social' | 'other';
+  message: string;
+  source?: string;
+}): Promise<Contact> {
+  const response = await fetch(`${API_URL}/contacts`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      data: {
+        ...data,
+        dealStatus: 'pending',
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to submit contact: ${response.status} ${response.statusText}`);
+  }
+
+  const result = await response.json();
+  return result.data;
+}
+
+/**
+ * 获取所有案例
+ */
+export async function getCases(options?: {
+  serviceType?: 'seo' | 'geo' | 'social';
+  featured?: boolean;
+  limit?: number;
+  page?: number;
+}): Promise<PayloadResponse<Case>> {
+  const params: Record<string, any> = {
+    'populate': '*',
+    'pagination[page]': options?.page || 1,
+    'pagination[pageSize]': options?.limit || 12,
+    'sort[0]': 'order:asc',
+  };
+
+  if (options?.serviceType) {
+    params['filters[serviceType][$eq]'] = options.serviceType;
+  }
+
+  if (options?.featured !== undefined) {
+    params['filters[featured][$eq]'] = options.featured;
+  }
+
+  const data = await fetchAPI('/cases', params);
+  return convertToPayloadFormat<Case>(data);
+}
+
+/**
+ * 根据 slug 获取单个案例
+ */
+export async function getCaseBySlug(slug: string): Promise<Case | null> {
+  const params = {
+    'filters[slug][$eq]': slug,
+    'populate': '*',
+  };
+
+  const data = await fetchAPI('/cases', params);
+  return data.data?.[0] || null;
+}
+
+/**
+ * 获取相关案例
+ */
+export async function getRelatedCases(
+  caseId: string | number,
+  serviceType: 'seo' | 'geo' | 'social',
+  limit: number = 3
+): Promise<Case[]> {
+  const params = {
+    'filters[serviceType][$eq]': serviceType,
+    'filters[id][$ne]': caseId,
+    'populate': '*',
+    'pagination[pageSize]': limit,
+    'sort[0]': 'order:asc',
+  };
+
+  const data = await fetchAPI('/cases', params);
+  return data.data || [];
+}
+

@@ -46,7 +46,7 @@ export default function Cases() {
   ];
 
   return (
-    <section id="cases" className="py-24 bg-gradient-to-br from-slate-50 to-blue-50" ref={ref}>
+    <section id="cases" className="py-24 bg-linear-to-br from-slate-50 to-blue-50" ref={ref}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 标题区 */}
         <motion.div
