@@ -3,7 +3,7 @@
  * 用于从 Next.js 前端获取 CMS 数据
  */
 
-const PAYLOAD_API_URL = process.env.NEXT_PUBLIC_PAYLOAD_API_URL || 'http://localhost:3001/api'
+const PAYLOAD_API_URL = process.env.NEXT_PUBLIC_PAYLOAD_API_URL
 
 export interface Article {
   id: string
