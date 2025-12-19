@@ -193,7 +193,7 @@ https://strapi-xxxx.onrender.com
 ```
 
 **记录这个 URL**，稍后配置前端时需要。
-
+https://strapi-g26a.onrender.com
 ---
 
 ## 5. 配置 Strapi 数据持久化
