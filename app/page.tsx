@@ -7,6 +7,7 @@ import Services from '@/components/Services';
 import Process from '@/components/Process';
 import Cases from '@/components/Cases';
 import Advantages from '@/components/Advantages';
+import LatestArticles from '@/components/LatestArticles';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
       <Process />
       <Cases />
       <Advantages />
+      <LatestArticles />
       <Footer />
     </div>
   );

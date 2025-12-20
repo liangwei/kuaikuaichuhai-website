@@ -101,7 +101,7 @@ export async function getArticles(options?: {
 
   // 标签过滤（Strapi 5.x 的关联过滤）
   if (options?.tag) {
-    params['filters[tags][id][$eq]'] = options.tag;
+    params['filters[tags][name][$eq]'] = options.tag;
   }
 
   const data = await fetchAPI('/articles', params);

@@ -3,9 +3,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import Breadcrumb from '@/components/Breadcrumb'
 import FadeInWhenVisible from '@/components/FadeInWhenVisible'
+import ImageGallery from '@/components/ImageGallery'
 import { getCaseBySlug, getRelatedCases, getStrapiMediaUrl } from '@/lib/strapi'
-import { Building2, TrendingUp, Target, CheckCircle2, ArrowLeft, Lightbulb, Rocket } from 'lucide-react'
+import { Building2, TrendingUp, Target, CheckCircle2, ArrowLeft, Lightbulb, Rocket, Sparkles } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
@@ -72,17 +74,14 @@ export default async function CasePage({ params }: CasePageProps) {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       <main className="pt-16">
-        {/* Back Button */}
-        <div className="max-w-6xl mx-auto px-4 pt-24 pb-4">
-          <FadeInWhenVisible>
-            <Link
-              href="/cases"
-              className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors group"
-            >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              返回案例列表
-            </Link>
-          </FadeInWhenVisible>
+        {/* Breadcrumb */}
+        <div className="max-w-6xl mx-auto px-4 pt-16 pb-4">
+          <Breadcrumb
+            items={[
+              { label: '案例展示', href: '/cases' },
+              { label: caseItem.title }
+            ]}
+          />
         </div>
 
         {/* Case Header */}
@@ -106,7 +105,7 @@ export default async function CasePage({ params }: CasePageProps) {
 
               {/* Title */}
               <FadeInWhenVisible delay={0.2}>
-                <h1 className={`text-4xl md:text-5xl font-bold mb-8 leading-tight bg-gradient-to-r ${colors.gradient} bg-clip-text text-transparent`}>
+                <h1 className={`text-4xl md:text-5xl font-bold mb-8 leading-relaxed bg-gradient-to-r ${colors.gradient} bg-clip-text text-transparent`}>
                   {caseItem.title}
                 </h1>
               </FadeInWhenVisible>
@@ -115,7 +114,15 @@ export default async function CasePage({ params }: CasePageProps) {
               {caseItem.description && (
                 <FadeInWhenVisible delay={0.3}>
                   <div className="prose prose-xl max-w-none mb-8">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeRaw]}
+                      components={{
+                        p: ({ node, ...props }) => (
+                          <p className="mb-4 leading-relaxed text-gray-700 text-xl" {...props} />
+                        ),
+                      }}
+                    >
                       {caseItem.description}
                     </ReactMarkdown>
                   </div>
@@ -162,12 +169,47 @@ export default async function CasePage({ params }: CasePageProps) {
             {caseItem.challenge && (
               <FadeInWhenVisible delay={0.6}>
                 <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 border border-gray-100">
-                  <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                  <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                     <Target className={`w-6 h-6 ${colors.accent}`} />
                     面临的挑战
                   </h2>
                   <div className="prose prose-lg max-w-none">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeRaw]}
+                      components={{
+                        h2: ({ node, ...props }) => (
+                          <h2 className="text-2xl font-bold mt-8 mb-4 text-gray-900" {...props} />
+                        ),
+                        h3: ({ node, ...props }) => (
+                          <h3 className="text-xl font-bold mt-6 mb-3 text-gray-800" {...props} />
+                        ),
+                        p: ({ node, ...props }) => (
+                          <p className="mb-6 leading-relaxed text-gray-700 text-lg" {...props} />
+                        ),
+                        ul: ({ node, ...props }) => (
+                          <ul className="list-disc list-inside mb-6 space-y-3" {...props} />
+                        ),
+                        ol: ({ node, ...props }) => (
+                          <ol className="list-decimal list-inside mb-6 space-y-3" {...props} />
+                        ),
+                        li: ({ node, ...props }) => (
+                          <li className="ml-4 text-gray-700" {...props} />
+                        ),
+                        blockquote: ({ node, ...props }) => (
+                          <blockquote className={`border-l-4 pl-6 italic my-6 text-gray-700 bg-gradient-to-r from-gray-50 to-transparent py-4 rounded-r-lg border-${colors.accent.replace('text-', '')}`} {...props} />
+                        ),
+                        code: ({ node, inline, ...props }: any) =>
+                          inline ? (
+                            <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-700" {...props} />
+                          ) : (
+                            <code className="block bg-gray-900 text-gray-100 p-6 rounded-xl overflow-x-auto text-sm font-mono mb-6 shadow-lg" {...props} />
+                          ),
+                        a: ({ node, ...props }) => (
+                          <a className={`${colors.accent} hover:underline font-medium transition-colors`} target="_blank" rel="noopener noreferrer" {...props} />
+                        ),
+                      }}
+                    >
                       {caseItem.challenge}
                     </ReactMarkdown>
                   </div>
@@ -179,12 +221,47 @@ export default async function CasePage({ params }: CasePageProps) {
             {caseItem.solution && (
               <FadeInWhenVisible delay={0.7}>
                 <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 border border-gray-100">
-                  <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                  <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                     <Lightbulb className={`w-6 h-6 ${colors.accent}`} />
                     解决方案
                   </h2>
                   <div className="prose prose-lg max-w-none">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeRaw]}
+                      components={{
+                        h2: ({ node, ...props }) => (
+                          <h2 className="text-2xl font-bold mt-8 mb-4 text-gray-900" {...props} />
+                        ),
+                        h3: ({ node, ...props }) => (
+                          <h3 className="text-xl font-bold mt-6 mb-3 text-gray-800" {...props} />
+                        ),
+                        p: ({ node, ...props }) => (
+                          <p className="mb-6 leading-relaxed text-gray-700 text-lg" {...props} />
+                        ),
+                        ul: ({ node, ...props }) => (
+                          <ul className="list-disc list-inside mb-6 space-y-3" {...props} />
+                        ),
+                        ol: ({ node, ...props }) => (
+                          <ol className="list-decimal list-inside mb-6 space-y-3" {...props} />
+                        ),
+                        li: ({ node, ...props }) => (
+                          <li className="ml-4 text-gray-700" {...props} />
+                        ),
+                        blockquote: ({ node, ...props }) => (
+                          <blockquote className={`border-l-4 pl-6 italic my-6 text-gray-700 bg-gradient-to-r from-gray-50 to-transparent py-4 rounded-r-lg border-${colors.accent.replace('text-', '')}`} {...props} />
+                        ),
+                        code: ({ node, inline, ...props }: any) =>
+                          inline ? (
+                            <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-700" {...props} />
+                          ) : (
+                            <code className="block bg-gray-900 text-gray-100 p-6 rounded-xl overflow-x-auto text-sm font-mono mb-6 shadow-lg" {...props} />
+                          ),
+                        a: ({ node, ...props }) => (
+                          <a className={`${colors.accent} hover:underline font-medium transition-colors`} target="_blank" rel="noopener noreferrer" {...props} />
+                        ),
+                      }}
+                    >
                       {caseItem.solution}
                     </ReactMarkdown>
                   </div>
@@ -197,17 +274,12 @@ export default async function CasePage({ params }: CasePageProps) {
               <FadeInWhenVisible delay={0.8}>
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold mb-6">项目展示</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {caseItem.images.map((image, index) => (
-                      <div key={index} className="aspect-video rounded-xl overflow-hidden shadow-lg">
-                        <img
-                          src={getStrapiMediaUrl(image.url) || ''}
-                          alt={image.alternativeText || `项目图片${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    ))}
-                  </div>
+                  <ImageGallery
+                    images={caseItem.images.map((image, index) => ({
+                      src: getStrapiMediaUrl(image.url) || '',
+                      alt: image.alternativeText || `项目图片${index + 1}`
+                    }))}
+                  />
                 </div>
               </FadeInWhenVisible>
             )}
@@ -215,27 +287,24 @@ export default async function CasePage({ params }: CasePageProps) {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-purple-600">
+        <section className="py-12 px-4 bg-gray-50 border-t border-gray-200">
           <div className="max-w-4xl mx-auto text-center">
-            <FadeInWhenVisible>
-              <div className="flex justify-center mb-6">
-                <div className="p-4 bg-white/20 rounded-full">
-                  <Rocket className="w-12 h-12 text-white" />
-                </div>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                想要获得类似的成果？
-              </h2>
-              <p className="text-xl text-blue-100 mb-8">
-                立即联系我们，让专业团队为您定制出海方案
-              </p>
-              <Link
-                href="/contact"
-                className="inline-block px-8 py-4 bg-white text-blue-600 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-              >
-                开始咨询
-              </Link>
-            </FadeInWhenVisible>
+            <div className="flex justify-center mb-4">
+              <Rocket className="w-8 h-8 text-blue-600" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">
+              想要获得类似的成果？
+            </h2>
+            <p className="text-gray-600 mb-6">
+              立即联系我们，让专业团队为您定制出海方案
+            </p>
+            <Link
+              href="/contact"
+              className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              开始咨询
+              <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+            </Link>
           </div>
         </section>
 
