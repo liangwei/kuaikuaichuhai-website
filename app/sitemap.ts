@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { getArticles, getPopularTags, getCases } from '@/lib/strapi'
+import { getArticles, getCases, getTags } from '@/lib/strapi'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.kuaikuaichuhai.com'
@@ -10,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: baseUrl,
       lastModified: new Date(),
       changeFrequency: 'daily',
-      priority: 1,
+      priority: 1.0,
     },
     {
       url: `${baseUrl}/seo`,
@@ -50,43 +50,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  let articlePages: MetadataRoute.Sitemap = []
-  let tagPages: MetadataRoute.Sitemap = []
-  let casePages: MetadataRoute.Sitemap = []
+  // 获取所有文章
+  const articlesResponse = await getArticles({ limit: 1000 })
+  const articles: MetadataRoute.Sitemap = articlesResponse.docs.map((article) => ({
+    url: `${baseUrl}/news/${article.slug}`,
+    lastModified: new Date(article.updatedAt || article.publishedAt),
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }))
 
-  try {
-    // 获取所有文章
-    const articles = await getArticles({ status: 'published', limit: 1000 })
-    articlePages = articles.docs.map((article) => ({
-      url: `${baseUrl}/news/${article.slug}`,
-      lastModified: new Date(article.updatedAt),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
-    }))
+  // 获取所有案例
+  const casesResponse = await getCases({ limit: 1000 })
+  const cases: MetadataRoute.Sitemap = casesResponse.docs.map((caseItem) => ({
+    url: `${baseUrl}/cases/${caseItem.slug}`,
+    lastModified: new Date(caseItem.updatedAt || caseItem.publishedAt),
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }))
 
-    // 获取所有标签
-    const tags = await getPopularTags(100)
-    tagPages = tags.map((tag) => ({
-      url: `${baseUrl}/news?tag=${tag.slug}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.6,
-    }))
+  // 获取所有标签
+  const tags = await getTags()
+  const tagPages: MetadataRoute.Sitemap = tags.map((tag) => ({
+    url: `${baseUrl}/tag/${tag.slug}`,
+    lastModified: new Date(tag.updatedAt),
+    changeFrequency: 'weekly',
+    priority: 0.5,
+  }))
 
-    // 获取所有案例
-    const cases = await getCases({ limit: 1000 })
-    casePages = cases.docs
-      .filter((caseItem) => caseItem.slug)
-      .map((caseItem) => ({
-        url: `${baseUrl}/cases/${caseItem.slug}`,
-        lastModified: new Date(caseItem.updatedAt),
-        changeFrequency: 'monthly' as const,
-        priority: 0.7,
-      }))
-  } catch (error) {
-    console.error('Failed to fetch dynamic pages for sitemap:', error)
-    // 构建时如果 API 不可用，只返回静态页面
-  }
-
-  return [...staticPages, ...articlePages, ...tagPages, ...casePages]
+  return [...staticPages, ...articles, ...cases, ...tagPages]
 }
