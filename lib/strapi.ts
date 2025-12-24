@@ -63,18 +63,24 @@ async function fetchAPI(path: string, queryParams: Record<string, any> = {}) {
 
   const url = `${API_URL}${path}${params.toString() ? `?${params}` : ''}`;
 
-  const response = await fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    next: { revalidate: 60 }, // ISR: 60秒重新验证
-  });
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store', // 简单方案：不缓存，总是获取最新数据
+    });
 
-  if (!response.ok) {
-    throw new Error(`Strapi API error: ${response.status} ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`Strapi API error: ${response.status} ${response.statusText}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('Fetch error:', error);
+    console.error('URL:', url);
+    throw error;
   }
-
-  return response.json();
 }
 
 /**

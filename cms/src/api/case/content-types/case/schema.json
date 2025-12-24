@@ -20,6 +20,9 @@
       "targetField": "title",
       "required": true
     },
+    "description": {
+      "type": "text"
+    },
     "client": {
       "type": "string"
     },
@@ -48,9 +51,6 @@
         "geo",
         "social"
       ]
-    },
-    "description": {
-      "type": "richtext"
     },
     "challenge": {
       "type": "richtext"

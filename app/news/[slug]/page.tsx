@@ -5,15 +5,11 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Breadcrumb from '@/components/Breadcrumb'
 import FadeInWhenVisible from '@/components/FadeInWhenVisible'
-import { getArticleBySlug, getRelatedArticles, getStrapiMediaUrl } from '@/lib/strapi'
+import { getArticleBySlug, getLatestArticles, getPopularTags, getStrapiMediaUrl } from '@/lib/strapi'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import { Calendar, User, Eye, Tag as TagIcon, Clock, TrendingUp } from 'lucide-react'
-
-// 强制动态渲染,确保每次导航都重新获取数据
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
 
 interface ArticlePageProps {
   params: Promise<{
@@ -53,8 +49,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound()
   }
 
-  // 获取相关文章
-  const relatedArticles = await getRelatedArticles(article.id, article.type, 6)
+  // 获取最新文章（侧边栏）
+  const latestArticles = await getLatestArticles(6)
+
+  // 获取热门标签（侧边栏）
+  const popularTags = await getPopularTags(10)
 
   const typeLabels = {
     seo: 'SEO服务',
@@ -62,7 +61,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     social: '社媒服务',
   }
 
-  const typeColors = {
+  const typeColors: Record<string, { badge: string; gradient: string; accent: string }> = {
     seo: {
       badge: 'bg-blue-100 text-blue-700 hover:bg-blue-200',
       gradient: 'from-blue-600 to-purple-600',
@@ -80,7 +79,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     },
   }
 
-  const colors = typeColors[article.type]
+  // 默认颜色配置，防止 article.type 不匹配时出错
+  const defaultColors = {
+    badge: 'bg-gray-100 text-gray-700 hover:bg-gray-200',
+    gradient: 'from-gray-600 to-gray-800',
+    accent: 'text-gray-600',
+  }
+
+  const colors = typeColors[article.type] || defaultColors
 
   // 构建JSON-LD结构化数据
   const jsonLd = {
@@ -259,45 +265,58 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 )}
               </article>
 
-              {/* Sidebar - Related Articles */}
-              {relatedArticles.length > 0 && (
-                <aside className="lg:w-80 space-y-6">
-                  <FadeInWhenVisible delay={0.2}>
-                    <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 sticky top-24">
+              {/* Sidebar - Latest Articles & Popular Tags */}
+              <aside className="lg:w-80 space-y-6">
+                {/* Latest Articles */}
+                <FadeInWhenVisible delay={0.2}>
+                  <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 sticky top-24">
+                    <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
+                      <TrendingUp className="w-5 h-5 text-blue-600" />
+                      <h3 className="text-lg font-bold">最新发布</h3>
+                    </div>
+                    <div className="space-y-4">
+                      {latestArticles.map((latestArticle) => (
+                        <Link
+                          key={latestArticle.id}
+                          href={`/news/${latestArticle.slug}`}
+                          className="block group"
+                        >
+                          <h4 className="font-medium text-sm line-clamp-2 group-hover:text-blue-600 transition-colors mb-2">
+                            {latestArticle.title}
+                          </h4>
+                          <time className="text-xs text-gray-500 flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {new Date(latestArticle.publishedAt).toLocaleDateString('zh-CN')}
+                          </time>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </FadeInWhenVisible>
+
+                {/* Popular Tags */}
+                {popularTags.length > 0 && (
+                  <FadeInWhenVisible delay={0.3}>
+                    <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
                       <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
-                        <TrendingUp className={`w-5 h-5 ${colors.accent}`} />
-                        <h3 className="text-lg font-bold">相关推荐</h3>
+                        <TagIcon className="w-5 h-5 text-purple-600" />
+                        <h3 className="text-lg font-bold">热门标签</h3>
                       </div>
-                      <div className="space-y-4">
-                        {relatedArticles.map((relatedArticle) => (
+                      <div className="flex flex-wrap gap-2">
+                        {popularTags.map((tag) => (
                           <Link
-                            key={relatedArticle.id}
-                            href={`/news/${relatedArticle.slug}`}
-                            className="block group"
+                            key={tag.id}
+                            href={`/tag/${tag.slug}`}
+                            className="px-4 py-2 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-blue-50 hover:to-purple-50 border border-gray-200 hover:border-blue-200 text-gray-700 hover:text-blue-600 text-sm rounded-full transition-all hover:shadow-md font-medium"
                           >
-                            {relatedArticle.coverImage && (
-                              <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg overflow-hidden mb-3">
-                                <img
-                                  src={getStrapiMediaUrl(relatedArticle.coverImage.url) || ''}
-                                  alt={relatedArticle.coverImage.alternativeText || relatedArticle.title}
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                              </div>
-                            )}
-                            <h4 className={`font-medium text-sm line-clamp-2 group-hover:${colors.accent} transition-colors mb-2`}>
-                              {relatedArticle.title}
-                            </h4>
-                            <time className="text-xs text-gray-500 flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
-                              {new Date(relatedArticle.publishedAt).toLocaleDateString('zh-CN')}
-                            </time>
+                            #{tag.name}
                           </Link>
                         ))}
                       </div>
                     </div>
                   </FadeInWhenVisible>
-                </aside>
-              )}
+                )}
+              </aside>
             </div>
           </div>
         </div>

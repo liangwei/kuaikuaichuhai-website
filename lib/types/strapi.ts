@@ -54,6 +54,8 @@ export interface Tag {
   documentId: string;
   name: string;
   slug: string | null;
+  title?: string;  // SEO 标题
+  description?: string;  // SEO 描述
   createdAt: string;
   updatedAt: string;
   publishedAt: string;

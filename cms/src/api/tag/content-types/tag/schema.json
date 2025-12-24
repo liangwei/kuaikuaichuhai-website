@@ -27,10 +27,10 @@
       "target": "api::article.article",
       "inversedBy": "tags"
     },
-    "Title": {
+    "title": {
       "type": "string"
     },
-    "Description": {
+    "description": {
       "type": "text"
     }
   }

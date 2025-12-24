@@ -25,8 +25,8 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
   }
 
   return {
-    title: `${tag.name} - 快快出海`,
-    //description: tag.description || `查看所有关于 ${tag.name} 的文章`,
+    title: tag.title || `${tag.name} - 快快出海`,
+    description: tag.description || `查看所有关于 ${tag.name} 的文章`,
   }
 }
 
@@ -66,13 +66,13 @@ export default async function TagPage({ params, searchParams }: TagPageProps) {
               #{tag.name}
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              {tag.name}
+              {tag.title || tag.name}
             </h1>
-            {/* {tag.description && (
+            {tag.description && (
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 {tag.description}
               </p>
-            )} */}
+            )}
             <p className="text-gray-500 mt-4">
               共 {articlesResponse.totalDocs} 篇文章
             </p>
