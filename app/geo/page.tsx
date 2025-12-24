@@ -10,9 +10,13 @@ import FadeInWhenVisible from '@/components/FadeInWhenVisible'
 import CounterAnimation from '@/components/CounterAnimation'
 import { MapPin, Globe2, Users, TrendingUp, Sparkles, Target, Navigation, ShieldCheck } from 'lucide-react'
 
-export const metadata: Metadata = {
-  title: 'GEO服务 - 快快出海',
-  description: '全球区域化营销服务，精准定位目标市场，实现本地化营销策略',
+export async function generateMetadata(): Promise<Metadata> {
+  const service = await getServiceBySlug('geo')
+
+  return {
+    title: service?.seoTitle || service?.title || 'GEO服务 - 快快出海',
+    description: service?.seoDescription || service?.shortDescription || '全球区域化营销服务，精准定位目标市场，实现本地化营销策略',
+  }
 }
 
 const featureIcons = [MapPin, Globe2, Navigation, ShieldCheck]

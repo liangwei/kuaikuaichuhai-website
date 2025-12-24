@@ -97,6 +97,8 @@ export interface Service {
   slug: string | null;
   description: string;
   shortDescription: string;
+  seoTitle?: string;  // SEO 标题
+  seoDescription?: string;  // SEO 描述
   heroTitle?: string;
   heroSubtitle?: string;
   content?: string;

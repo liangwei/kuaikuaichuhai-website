@@ -10,9 +10,13 @@ import FadeInWhenVisible from '@/components/FadeInWhenVisible'
 import CounterAnimation from '@/components/CounterAnimation'
 import { Share2, Heart, TrendingUp, Users2, Sparkles, Zap, Video, MessageCircle } from 'lucide-react'
 
-export const metadata: Metadata = {
-  title: '社媒服务 - 快快出海',
-  description: '全球社交媒体营销服务，覆盖TikTok、Instagram、Facebook等主流平台',
+export async function generateMetadata(): Promise<Metadata> {
+  const service = await getServiceBySlug('social')
+
+  return {
+    title: service?.seoTitle || service?.title || '社媒服务 - 快快出海',
+    description: service?.seoDescription || service?.shortDescription || '全球社交媒体营销服务，覆盖TikTok、Instagram、Facebook等主流平台',
+  }
 }
 
 const featureIcons = [Share2, Users2, Video, Zap]

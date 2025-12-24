@@ -10,9 +10,13 @@ import FadeInWhenVisible from '@/components/FadeInWhenVisible'
 import CounterAnimation from '@/components/CounterAnimation'
 import { Search, TrendingUp, Globe, Award, Sparkles, Target, BarChart3, Shield } from 'lucide-react'
 
-export const metadata: Metadata = {
-  title: 'SEO服务 - 快快出海',
-  description: '专业的SEO优化服务，帮助中国品牌在全球搜索引擎中获得更好的排名和曝光',
+export async function generateMetadata(): Promise<Metadata> {
+  const service = await getServiceBySlug('seo')
+
+  return {
+    title: service?.seoTitle || service?.title || 'SEO服务 - 快快出海',
+    description: service?.seoDescription || service?.shortDescription || '专业的SEO优化服务，帮助中国品牌在全球搜索引擎中获得更好的排名和曝光',
+  }
 }
 
 const featureIcons = [Globe, TrendingUp, Target, BarChart3]
